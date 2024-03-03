@@ -6,7 +6,7 @@ fix:
 	sudo apt -y install docker-compose-plugin
 
 hosts:
-	if ! grep "oburato.42.fr" /etc/hosts; then \
+	@if ! grep "oburato.42.fr" /etc/hosts; then \
 		sudo sed -i '2i\127.0.0.1\toburato.42.fr' /etc/hosts; \
 	fi
 
