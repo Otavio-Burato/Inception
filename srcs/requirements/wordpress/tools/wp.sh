@@ -2,11 +2,11 @@
 
 if ! wp core is-installed --allow-root --path=/var/www/wordpress; then
 	wp core download --path=/var/www/html --allow-root
-	sed -i "s/database_name_here/$MYSQL_DATABASE/g" wp-config-sample.php
-	sed -i "s/username_here/$MYSQL_USER/g" wp-config-sample.php
-	sed -i "s/password_here/$MYSQL_PASSWORD/g" wp-config-sample.php
-	sed -i "s/localhost/$MYSQL_HOSTNAME/g" wp-config-sample.php
-	cp wp-config-sample.php wp-config.php
+	mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+	wp config set DB_NAME $MYSQL_DATABASE --allow-root --path=/var/www/html/
+	wp config set DB_USER $MYSQL_USER --allow-root --path=/var/www/html/
+	wp config set DB_PASSWORD $MYSQL_PASSWORD --allow-root --path=/var/www/html/
+	wp config set DB_HOST $MYSQL_HOSTNAME --allow-root --path=/var/www/html/
 	wp core install --allow-root --path=/var/www/html --url=${DOMAIN_NAME} --title=${WORDPRESS_NAME} --admin_user=${WORDPRESS_ROOT_LOGIN} --admin_password=${MYSQL_ROOT_PASSWORD} --admin_email=${WORDPRESS_ROOT_EMAIL}
 	wp plugin uninstall --allow-root --path=/var/www/html akismet hello
 	wp plugin update --all --allow-root --path=/var/www/html
