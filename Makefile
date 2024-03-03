@@ -25,7 +25,7 @@ down:
 	docker compose -f ./srcs/docker-compose.yml down
 
 inspec:
-	docker exec -it mariadb /bin/bash
+	docker exec -it wordpress /bin/bash
 
 clean:
 	docker volume rm mariadb
@@ -35,4 +35,4 @@ clean:
 	sudo rm -rf /home/oburato/data/wordpress
 	sudo rm -rf /home/oburato/data/static
 
-re: down all
+re: down clean all
