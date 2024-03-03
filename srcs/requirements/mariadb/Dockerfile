@@ -1,19 +1,18 @@
 FROM debian:oldstable
 
-RUN apt-get update && apt-get install -y mariadb-server mariadb-client && rm -rf /var/lib/apt/lists/*
+RUN apt -y update && apt -y install mariadb-server mariadb-client
 
-RUN mkdir -p /var/run/mysqld && chown -R mysql:mysql /var/run/mysqld && chmod 777 /var/run/mysqld
-
-COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/
+RUN mkdir -p /var/lib/mysql /var/run/mysqld
 RUN chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
 RUN chmod 777 /var/run/mysqld
 
-EXPOSE 3306
+COPY ./conf/mariadb.cnf /etc/mysql/mariadb.conf.d/
+RUN chmod 644 /etc/mysql/mariadb.conf.d/mariadb.cnf
+COPY ./conf/conf.sql /usr/local/bin/
 
 COPY ./tools/mariadb.sh /usr/local/bin/
+RUN bash /usr/local/bin/mariadb.sh
 
-RUN chmod +x /usr/local/bin/mariadb.sh
+EXPOSE 3306
 
-ENTRYPOINT [ "bash", "/usr/local/bin/mariadb.sh" ]
-
-CMD [ "mysqld_safe" ]
+ENTRYPOINT [ "mysqld_safe" ]

@@ -1,32 +1,18 @@
 #!/bin/sh
 
-mysql_install_db
+service mariadb start
 
-/etc/init.d/mysql start
+mariadb -u root -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;"
+mariadb -u root -e "CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';"
+mariadb -u root -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';"
+mariadb -u root -e "FLUSH PRIVILEGES;"
 
-if [ -d "/var/lib/mysql/$MYSQL_DATABASE" ]
-then
-	echo "Database already exists"
-else
+mariadb -u root $MYSQL_DATABASE < /usr/local/bin/conf.sql
 
-mysql_secure_installation << _EOF_
+mariadb -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MYSQL_ROOT_PASSWORD');"
+mariadb -u root -e "FLUSH PRIVILEGES;"
 
-Y
-root4life
-root4life
-Y
-n
-Y
-Y
-_EOF_
+mariadb -u root -p $MYSQL_ROOT_PASSWORD "GRANT ALL ON *.* TO 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';"
+mariadb -u root -p $MYSQL_ROOT_PASSWORD "FLUSH PRIVILEGES;"
 
-echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
-echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -u root
-
-mysql -uroot -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /usr/local/bin/conf.sql
-
-fi
-
-/etc/init.d/mysql stop
-
-exec "$@"
+service mariadb stop

@@ -1,4 +1,4 @@
-all: volumes fix up
+all: hosts volumes fix up
 
 fix:
 	sudo apt -y purge "^virtualbox-.*"
@@ -6,7 +6,7 @@ fix:
 	sudo apt -y install docker-compose-plugin
 
 hosts:
-	if ! grep -qFx "127.0.0.1 oburato.42.fr" /etc/hosts; then \
+	if ! grep "oburato.42.fr" /etc/hosts; then \
 		sudo sed -i '2i\127.0.0.1\toburato.42.fr' /etc/hosts; \
 	fi
 
@@ -25,7 +25,7 @@ down:
 	docker compose -f ./srcs/docker-compose.yml down
 
 inspec:
-	docker exec -it wordpress /bin/bash
+	docker exec -it mariadb /bin/bash
 
 clean:
 	docker volume rm mariadb
