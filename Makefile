@@ -1,4 +1,4 @@
-all: fix
+all: fix up
 
 fix:
 	sudo apt -y purge "^virtualbox-.*"
@@ -6,7 +6,9 @@ fix:
 	sudo apt -y install docker-compose-plugin
 
 up:
-	docker compose
+	docker compose -f ./srcs/docker-compose.yml up -d --build
 
 down:
-	docker compose
+	docker compose -f ./srcs/docker-compose.yml down
+
+re: down all
