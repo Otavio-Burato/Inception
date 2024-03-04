@@ -32,13 +32,13 @@ services:
       - wordpress
 
   mariadb:
-    build: ./requirements/mariadb
     image: mariadb
     container_name: mariadb
     restart: always
+    env_file:
+      - .env
     build:
       context: ./requirements/mariadb
-      dockerfile: Dockerfile
       args:
         - MYSQL_DATABASE
         - MYSQL_USER

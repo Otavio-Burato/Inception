@@ -12,6 +12,8 @@ if ! wp core is-installed --allow-root --path=/var/www/wordpress; then
 	wp plugin update --all --allow-root --path=/var/www/html
 	chown -R www-data:www-data /var/www/html
 	chmod -R 774 /var/www/html
+	wp plugin install wordpress-importer --activate
+	wp --allow-root import inception.xml --authors=create
 	rm -rf wordpress
 else
 	echo "wordpress already downloaded"
