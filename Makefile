@@ -25,7 +25,7 @@ down:
 	@docker compose -f ./srcs/docker-compose.yml down
 
 inspec:
-	docker exec -it wordpress /bin/bash
+	docker exec -it mariadb /bin/bash
 
 clean:
 	@docker volume rm mariadb

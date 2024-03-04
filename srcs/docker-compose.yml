@@ -36,8 +36,14 @@ services:
     image: mariadb
     container_name: mariadb
     restart: always
-    env_file:
-      - .env
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+      args:
+        - MYSQL_DATABASE
+        - MYSQL_USER
+        - MYSQL_PASSWORD
+        - MYSQL_ROOT_PASSWORD
     networks:
       - inception
     volumes:
