@@ -1,0 +1,182 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/ui/card/Card.astro";
+import CardHeader from "../components/ui/card/CardHeader.astro";
+import CardContent from "../components/ui/card/CardContent.astro";
+import LinkTree from "../components/LinkTree.astro";
+import PrintLinkTree from "../components/PrintLinkTree.astro";
+import Section from "../components/Section.astro";
+import CertCard from "../components/CertCard.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import Avatar from "../components/Avatar.astro";
+import Badge from "../components/ui/Badge.astro";
+
+import { ui } from "../i18n/ui";
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: "pt" } },
+    {params: {lang: 'en'}},
+  ];
+}
+
+const { lang } = Astro.params;
+
+function t(key: string) {
+  return ui[lang][key];
+}
+
+const links = {
+  email: "otavioburato42@gmail.com",
+  tel: "+55 (11) 95360-0806",
+  github: "https://github.com/Otavio-Burato",
+  linkedin: "https://www.linkedin.com/in/otavio-burato/",
+  avatarUrl:
+    "https://media.licdn.com/dms/image/D4D03AQHPLoIyc3cVgg/profile-displayphoto-shrink_400_400/0/1692653861962?e=1711584000&v=beta&t=hO-juvxtS9wdbo66aoiDGoFCHsWzYTyXnu3gFhy-2P4",
+  locationLink: "https://maps.app.goo.gl/j9jSw4rugFUuvQPw7",
+};
+---
+
+<Layout languege={lang} title="Resume | Otávio Burato">
+  <main
+    class="container relative mx-auto scroll-my-12 overflow-auto p-4 print:p-12 md:p-16"
+  >
+    <section
+      class="mx-auto w-full max-w-2xl space-y-8 bg-white print:space-y-6"
+    >
+      <div class="sm:flex sm:flex-row-reverse grid rtl items-center">
+        <Avatar alt={t("name")} src={links.avatarUrl} />
+        <div class="flex-1 space-y-1.5">
+          <h1 class="text-2xl font-bold">{t("name")}</h1>
+          <p
+            class="max-w-md text-pretty font-mono text-sm text-muted-foreground"
+          >
+            {t("about.info")}
+          </p>
+          <div
+            class="flex flex-col p-4 gap-x-1 pt-1 font-mono text-sm text-muted-foreground print:hidden"
+          >
+            <LinkTree data={links} />
+          </div>
+          <PrintLinkTree data={links} />
+        </div>
+      </div>
+      <Section>
+        <h2 class="text-xl font-bold">{t("about")}</h2>
+        <p class="text-justify font-mono text-sm text-muted-foreground">
+          {t("summary")}
+        </p>
+      </Section>
+      <Section>
+        <h2 class="text-xl font-bold">{t("work.info")}</h2>
+        {
+          t("work").map((work: any) => {
+            return (
+              <Card key={work.company}>
+                <CardHeader>
+                  <div class="flex items-center justify-between gap-x-2 text-base">
+                    <h3 class="inline-flex items-center justify-center gap-x-1 font-semibold leading-none">
+                      <a class="hover:underline" href={work.link}>
+                        {work.company}
+                      </a>
+                      <span class="inline-flex gap-x-1">
+                        {work.badges.map((badge: any) => (
+                          <Badge
+                            variant="secondary"
+                            class="align-middle text-xs"
+                          >
+                            {badge}
+                          </Badge>
+                        ))}
+                      </span>
+                    </h3>
+                    <div class="text-sm tabular-nums text-gray-500">
+                      {work.start} - {work.end}
+                    </div>
+                  </div>
+                  <h4 class="font-mono text-sm leading-none">{work.title}</h4>
+                </CardHeader>
+                <CardContent class="text-justify mt-2 text-xs">
+                  {work.description}
+                </CardContent>
+              </Card>
+            );
+          })
+        }
+      </Section>
+      <Section class="print-force-new-page scroll-mb-16">
+        <h2 class="text-xl font-bold">{t("certification.info")}</h2>
+        <div class="flex flex-col">
+          {
+            t("certification").map((certification: any) => {
+              return (
+                <CertCard
+                  title={certification.entity}
+                  description={certification.description}
+                  link={
+                    "link" in certification
+                      ? certification.link.href
+                      : undefined
+                  }
+                  tags={[]}
+                />
+              );
+            })
+          }
+        </div>
+      </Section>
+      <Section>
+        <h2 class="text-xl font-bold">{t("education.info")}</h2>
+        {
+          t("education").map((education: any) => {
+            return (
+              <Card key={education.school}>
+                <CardHeader>
+                  <div class="flex items-center justify-between gap-x-2 text-base">
+                    <h3 class="font-semibold leading-none">
+                      {education.school}
+                    </h3>
+                    <div class="text-sm tabular-nums text-gray-500">
+                      {education.start} - {education.end}
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent class="font-semibold">
+                  {education.degree}
+                </CardContent>
+                <CardContent class="mt-2 text-justify">{education.description}</CardContent>
+              </Card>
+            );
+          })
+        }
+      </Section>
+      <Section>
+        <h2 class="text-xl font-bold">{t("skills.info")}</h2>
+        <div class="flex flex-wrap gap-1">
+          {
+            t("skills").map((skill: any) => {
+              return <Badge>{skill}</Badge>;
+            })
+          }
+        </div>
+      </Section>
+      <Section class="print-force-new-page scroll-mb-16">
+        <h2 class="text-xl font-bold">{t("projects.info")}</h2>
+        <div class="flex flex-col">
+          {
+            t("projects").map((project: any) => {
+              return (
+                <ProjectCard
+                  title={project.title}
+                  description={project.description}
+                  tags={project.techStack}
+                  link={"link" in project ? project.link.href : undefined}
+                />
+              );
+            })
+          }
+        </div>
+      </Section>
+    </section>
+  </main>
+</Layout>

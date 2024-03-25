@@ -1,0 +1,36 @@
+---
+import { links } from "../../src/i18n/ui";
+---
+
+<div
+    class="hidden flex-col gap-x-1 font-mono text-sm text-muted-foreground print:flex"
+>
+    {
+        (
+            <a href={`mailto:${links.email}`}>
+                <span class="underline">{links.email}</span>
+            </a>
+        )
+    }
+    {
+        (
+            <a href={`tel:${links.tel}`}>
+                <span class="underline">{links.tel}</span>
+            </a>
+        )
+    }
+    {
+        (
+            <a href={`tel:${links.github}`}>
+                <span class="underline">{links.github}</span>
+            </a>
+        )
+    }
+    {
+        (
+            <a href={`tel:${links.linkedin}`}>
+                <span class="underline">{links.linkedin}</span>
+            </a>
+        )
+    }
+</div>

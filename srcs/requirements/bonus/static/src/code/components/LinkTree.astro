@@ -1,0 +1,66 @@
+---
+import Button from "./ui/Button.astro";
+import GlobeIcon from "../components/icon/GlobeIcon.astro";
+import MailIcon from "../components/icon/MailIcon.astro";
+import PhoneIcon from "../components/icon/PhoneIcon.astro";
+import LinkedinIcon from "../components/icon/LinkedinIcon.astro";
+import GitHubIcon from "./icon/GitHubIcon.astro";
+import { links } from "../../src/i18n/ui";
+---
+
+<div
+    class="flex flex-col p-4 gap-x-1 pt-1 font-mono text-sm text-muted-foreground print:hidden"
+>
+</div>
+<p
+    class="max-w-md items-center text-pretty font-mono text-xs text-muted-foreground"
+>
+    <a
+        class="inline-flex gap-x-1.5 align-baseline leading-none hover:underline"
+        href={links.locationLink}
+        target="_blank"
+    >
+        <GlobeIcon class="flex items-center">
+            {links.location}
+        </GlobeIcon>
+    </a>
+</p>
+{
+    links.email ? (
+        <Button class="h-8 w-8" variant="outline" size="icon">
+            <a href={`mailto:${links.email}`}>
+                <MailIcon class="flex items-center">{links.email}</MailIcon>
+            </a>
+        </Button>
+    ) : null
+}
+
+{
+    links.tel ? (
+        <Button class="h-8 w-8" variant="outline" size="icon">
+            <a href={`tel:${links.tel}`}>
+                <PhoneIcon class="flex items-center">{links.tel}</PhoneIcon>
+            </a>
+        </Button>
+    ) : null
+}
+
+{
+    links.linkedin ? (
+        <Button class="h-8 w-8" variant="outline" size="icon">
+            <a href={links.linkedin}>
+                <LinkedinIcon class="flex items-center">Linkedin</LinkedinIcon>
+            </a>
+        </Button>
+    ) : null
+}
+
+{
+    links.github ? (
+        <Button class="h-8 w-8" variant="outline" size="icon">
+            <a href={links.github}>
+                <GitHubIcon class="flex items-center">GitHub</GitHubIcon>
+            </a>
+        </Button>
+    ) : null
+}

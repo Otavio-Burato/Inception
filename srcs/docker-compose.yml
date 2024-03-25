@@ -62,3 +62,17 @@ services:
       - inception
     volumes:
       - wordpress:/var/www/html
+
+  static:
+    depends_on:
+      - nginx
+    container_name: static
+    init: true
+    build:
+      context: ./requirements/bonus/static
+      dockerfile: Dockerfile
+    networks:
+      - inception
+    volumes:
+      - static:/usr/src/app
+    restart: always

@@ -25,7 +25,7 @@ down:
 	@docker compose -f ./srcs/docker-compose.yml down
 
 inspec:
-	docker exec -it wordpress /bin/bash
+	docker exec -it static /bin/bash
 
 clean:
 	@docker volume rm mariadb
@@ -34,5 +34,9 @@ clean:
 	@sudo rm -rf /home/oburato/data/mariadb
 	@sudo rm -rf /home/oburato/data/wordpress
 	@sudo rm -rf /home/oburato/data/static
+
+fclean: clean
+	docker rmi -f $(docker images -aq)
+	docker builder prune -f
 
 re: down clean all
