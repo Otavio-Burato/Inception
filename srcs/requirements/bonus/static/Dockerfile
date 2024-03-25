@@ -3,18 +3,9 @@ FROM debian:oldstable
 RUN apt -y update && apt -y install nodejs npm
 
 RUN mkdir -p /usr/src/app
-
 WORKDIR /usr/src/app
+COPY ./src/* /usr/src/app/
 
-#COPY ./conf/* .
-#
-#RUN npm install
-#
-#RUN mkdir -p /usr/src/app/public
-#COPY ./src/public/* /usr/src/app/public/
-#RUN mkdir -p /usr/src/app/src
-#COPY ./src/code/* /usr/src/app/src/
+EXPOSE 8080
 
-EXPOSE 3000
-
-#ENTRYPOINT [ "npm run dev" ]
+ENTRYPOINT [ "npx", "-y", "http-server" ]
