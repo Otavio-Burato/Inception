@@ -36,7 +36,6 @@ clean:
 	@sudo rm -rf /home/oburato/data/static
 
 fclean: clean
-	docker rmi -f $(docker images -aq)
 	docker builder prune -f
 
 re: down clean all
