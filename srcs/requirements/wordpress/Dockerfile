@@ -17,9 +17,6 @@ COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d
 RUN mkdir -p /var/run/php && chmod 777 /var/run/php
 RUN mkdir -p /var/www/html
 
-COPY ./conf/docker.png /var/www/html/
-COPY ./conf/inception.xml /var/www/html/
-
 COPY ./tools/entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["bash", "/usr/local/bin/entrypoint.sh"]
