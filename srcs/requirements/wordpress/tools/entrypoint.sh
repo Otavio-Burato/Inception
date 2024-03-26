@@ -7,7 +7,7 @@ if ! wp core is-installed --allow-root --path=/var/www/wordpress; then
     wp config set DB_USER $MYSQL_USER --allow-root --path=/var/www/html/
     wp config set DB_PASSWORD $MYSQL_PASSWORD --allow-root --path=/var/www/html/
     wp config set DB_HOST $MYSQL_HOSTNAME --allow-root --path=/var/www/html/
-    wp core install --allow-root --path=/var/www/html --url=${DOMAIN_NAME} --title=${WORDPRESS_NAME} --admin_user=${WORDPRESS_ROOT_LOGIN} --admin_password=${MYSQL_ROOT_PASSWORD} --admin_email=${WORDPRESS_ROOT_EMAIL}
+    wp core install --allow-root --path=/var/www/html --url=${DOMAIN_NAME} --title=${WORDPRESS_NAME} --admin_user=${WORDPRESS_ROOT_LOGIN} --admin_password=${WORDPRESS_ROOT_PASSWORD} --admin_email=${WORDPRESS_ROOT_EMAIL}
     wp plugin uninstall --allow-root --path=/var/www/html akismet hello
     wp plugin update --all --allow-root --path=/var/www/html
     chown -R www-data:www-data /var/www/html
