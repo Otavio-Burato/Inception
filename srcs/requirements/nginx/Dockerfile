@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y nginx openssl && rm -rf /var/lib/apt/li
 
 EXPOSE 443
 
-COPY ./conf/nginx.conf ./etc/nginx/conf.d/
+COPY ./conf/* ./etc/nginx/conf.d/
 COPY ./tools/ ./etc/nginx/tools
 
 ENTRYPOINT [ "bash", "/etc/nginx/tools/nginx.sh" ];

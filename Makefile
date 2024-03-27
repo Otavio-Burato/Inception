@@ -38,4 +38,4 @@ clean:
 fclean: clean
 	docker builder prune -f
 
-re: down clean all
+re: down fclean all

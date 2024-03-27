@@ -66,11 +66,10 @@ services:
   static:
     depends_on:
       - nginx
+    image: static
     container_name: static
     init: true
-    build:
-      context: ./requirements/bonus/static
-      dockerfile: Dockerfile
+    build: ./requirements/bonus/static
     networks:
       - inception
     volumes:
